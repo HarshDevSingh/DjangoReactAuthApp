@@ -2,12 +2,29 @@ from .serializers import CustomUserSerializer
 from .models import CustomUser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 
 # Create your views here.
 @api_view(['GET'])
 def users_list(request):
     if request.method == 'GET':
-        users=CustomUser.objects.all()
-        serializers = CustomUserSerializer(users, many=True)
-        return Response(serializers.data)
+        try:
+            users = CustomUser.objects.all()
+            serializers = CustomUserSerializer(users, many=True)
+            return Response(serializers.data,status=status.HTTP_200_OK)
+        except:
+            return Response({"error":serializers.errors},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+def user_detail(request, id=None):
+    if request.method == 'GET':
+        if id is not None:
+            try:
+                user = CustomUser.objects.get(id=id)
+                serializers = CustomUserSerializer(user, many=False)
+                return Response(serializers.data, status=status.HTTP_200_OK)
+            except:
+                return Response({"error": serializers.errors}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
