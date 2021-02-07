@@ -26,9 +26,8 @@ def user_detail(request, id=None):
             if id is not None:
                 try:
                     user = get_object_or_404(CustomUser, id=id)
-                    if user:
-                        serializers = CustomUserSerializer(user, many=False)
-                        return Response(serializers.data, status=status.HTTP_200_OK)
+                    serializers = CustomUserSerializer(user, many=False)
+                    return Response(serializers.data, status=status.HTTP_200_OK)
                 except:
                     return Response({'error': 'user not found'}, status=status.HTTP_404_NOT_FOUND)
     except:
