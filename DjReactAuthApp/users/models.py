@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
 
 
 class UserProfile(models.Model):
-    user=models.OneToOneField(CustomUser,related_name='user',on_delete=models.CASCADE)
+    user=models.OneToOneField(CustomUser,related_name='profile',on_delete=models.CASCADE)
     first_name=models.CharField(max_length=100,blank=True,null=True)
     last_name = models.CharField(max_length=100, blank=True, null=True)
     dob=models.DateField(blank=True,null=True)
