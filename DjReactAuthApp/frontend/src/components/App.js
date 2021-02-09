@@ -1,12 +1,21 @@
-import React from 'react'
-import ReactDOM from"react-dom"
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-const App = () => {
+import Header from "./layout/Header";
+import { Provider } from "react-redux";
+import store from "../store";
+
+class App extends Component {
+  render() {
     return (
-        <div>
-            <h1>Hello</h1>
-        </div>
-    )
+      <Provider store={store}>
+        <>
+          <Header />
+          <h1>hello</h1>
+        </>
+      </Provider>
+    );
+  }
 }
 
-ReactDOM.render(<App/>,document.getElementById('app'))
+ReactDOM.render(<App />, document.getElementById("app"));
