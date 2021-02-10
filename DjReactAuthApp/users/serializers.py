@@ -27,6 +27,11 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password': {'write_only': True},
         }
 
+    def validate(self, attrs):
+        if len(attrs['password']) <4:
+            raise serializers.ValidationError("password must be greater than 4 chars")
+        return attrs
+
     def create(self, validated_data):
         user = CustomUser.objects.create_user(validated_data['email'], validated_data['password'])
         return user
@@ -41,3 +46,25 @@ class LoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Incorrect credentials")
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
+
+    def validate_old_password(self, value):
+        user=self.context['request'].user
+        is_old_password_correct=user.check_password(value)
+        if not is_old_password_correct:
+            raise serializers.ValidationError({"old_password":"incorrect old password"})
+        return value
+
+    def validate(self, attrs):
+        if len(attrs['new_password']) <4 or attrs['new_password'] != attrs['confirm_password']:
+            raise serializers.ValidationError({"new_password":"either new password is less than 4 chars or it doesnt matches with confirm password,Please enter a valid new password"})
+
+        if attrs['new_password']==attrs['old_password']:
+            raise serializers.ValidationError({"new_password":"new password can not same as the old password, Please try again with a valid password"})
+        return attrs
+
