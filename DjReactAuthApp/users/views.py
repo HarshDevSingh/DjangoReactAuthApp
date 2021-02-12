@@ -163,6 +163,6 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
                                     f'your password was reset successfully!'},
                         status=status.HTTP_200_OK)
             except:
-                return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "failed to reset password"}, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"error": "something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

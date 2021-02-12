@@ -11,5 +11,5 @@ urlpatterns = [
     path('api/users/password-change/', ChangePasswordView.as_view(), name="password-change"),
     path('api/users/password-reset/', PasswordResetRequestAPIView.as_view(), name="password-reset"),
     path('api/users/password-reset/confirm/', SetNewPasswordAPIView.as_view(), name="password-reset-confirm"),
-
+    path('api/users/logout/', knox_views.LogoutView.as_view(), name="users-logout"),
 ]
