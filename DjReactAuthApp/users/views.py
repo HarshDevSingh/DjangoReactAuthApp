@@ -116,7 +116,7 @@ class PasswordResetRequestAPIView(generics.GenericAPIView):
                         uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
                         token = PasswordResetTokenGenerator().make_token(user)
                         current_site = get_current_site(request).domain
-                        password_reset_link = f'http://{current_site}/{uidb64}/{token}/'
+                        password_reset_link = f'http://{current_site}/#/reset-password-confirm/{uidb64}/{token}/'
                         subject = f'Hi {user.profile.first_name}, Here is your link to reset password.'
                         body = f'click below link to reset your password:\n{password_reset_link}'
                         email_data = {"subject": subject, "body": body, "to": user.email}
@@ -166,3 +166,13 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
                 return Response({"error": "failed to reset password"}, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"error": "something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class UserAPIView(generics.RetrieveAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    serializer_class = CustomUserSerializer
+
+    def get_object(self):
+        return self.request.user
