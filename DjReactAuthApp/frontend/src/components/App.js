@@ -9,6 +9,7 @@ import Login from "./Auth/Login";
 import Logout from "./Auth/Logout";
 import PasswordReset from "./Auth/PasswordReset";
 import PasswordResetConfirm from "./Auth/PasswordResetConfirm";
+import PasswordChange from "../components/Auth/PasswordChange";
 
 import PrivateRoute from "./commons/PrivateRoute";
 
@@ -38,6 +39,12 @@ class App extends Component {
             <div>
               <Switch>
                 <PrivateRoute exact path="/" component={MyProfile} />
+                <PrivateRoute
+                  exact
+                  path="/change-password"
+                  component={PasswordChange}
+                />
+
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/Logout" component={Logout} />

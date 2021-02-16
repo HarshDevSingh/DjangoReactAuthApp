@@ -73,13 +73,41 @@ export const logout = () => (dispatch) => {
   axios
     .post("api/users/logout/", null, config)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: LOGOUT_SUCCESS,
       });
     })
     .catch((err) => {
       console.log(err);
+    });
+};
+
+export const changePassword = (
+  old_password,
+  new_password,
+  confirm_password
+) => (dispatch) => {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  if (token) {
+    config.headers["Authorization"] = `Token ${token}`;
+  }
+  const body = JSON.stringify({ old_password, new_password, confirm_password });
+  axios
+    .put("/api/users/password-change/", body, config)
+    .then((res) => {
+      dispatch({
+        type: CHANGE_PASSWORD,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: AUTH_ERROR,
+      });
     });
 };
 
@@ -120,7 +148,6 @@ export const confirmPasswordReset = (
     uidb64,
     token,
   });
-  console.log(body);
 
   axios
     .post("api/users/password-reset/confirm/", body, config)

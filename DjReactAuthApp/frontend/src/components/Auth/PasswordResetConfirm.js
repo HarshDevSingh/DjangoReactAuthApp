@@ -24,8 +24,6 @@ const PasswordResetConfirm = ({ confirmPasswordReset, ...props }) => {
     setFormData({
       new_password: "",
       confirm_password: "",
-      uidb64: "",
-      token: "",
     });
   };
   return (

@@ -73,6 +73,14 @@ const auth = (state = initialState, action) => {
         isAuthenticated: false,
         user: null,
       };
+    case CHANGE_PASSWORD:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        IsLoading: false,
+        isAuthenticated: false,
+        user: null,
+      };
     default:
       return state;
   }
